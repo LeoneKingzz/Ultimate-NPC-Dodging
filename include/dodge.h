@@ -5,10 +5,10 @@
 #include <shared_mutex>
 #include "UselessFenixUtils.h"
 #include "settings.h"
-#include "include/Utils.h"
+#include "Utils.h"
 #include <algorithm>
 #include "RE/M/Misc.h"
-#include "include/lib/PrecisionAPI.h"
+#include "lib/PrecisionAPI.h"
 
 
 using PRECISION_API::PreHitCallback;

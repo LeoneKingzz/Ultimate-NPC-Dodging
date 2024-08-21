@@ -1,9 +1,9 @@
 #include "SKSE/Trampoline.h"
 #include "settings.h"
 #include "dodge.h"
-#include "include/Utils.h"
+#include "Utils.h"
 #include "CombatBehaviorConditions.h"
-#include "editorID.hpp"
+#include "ClibUtil/editorID.hpp"
 #pragma warning(disable: 4100)
 
 
