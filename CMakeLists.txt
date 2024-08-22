@@ -5,7 +5,7 @@ message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 ########################################################################################################################
 ## Define project
 ########################################################################################################################
-project(UltimateNPCDodging
+project(UND
 		DESCRIPTION ""
 		VERSION 0.0.1
 		LANGUAGES CXX)
