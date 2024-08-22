@@ -28,7 +28,34 @@ namespace Utils
 		static std::mt19937 gen(rd());
 		return select_randomly(start, end, gen);
 	}
-	
+
+	template <int id, typename T, typename... Args>
+	T _generic_foo(Args... args)
+	{
+		using func_t = T(Args...);
+		REL::Relocation<func_t> func{REL::ID(id)};
+		return func(std::forward<Args>(args)...);
+	}
+
+	void interruptattack(RE::Actor *me)
+	{
+		me->NotifyAnimationGraph("attackStop");
+		me->NotifyAnimationGraph("bashStop");
+		me->NotifyAnimationGraph("blockStop");
+		me->NotifyAnimationGraph("staggerStop");
+		me->NotifyAnimationGraph("recoilStop");
+	}
+
+	float get_angle_he_me(RE::Actor *me, RE::Actor *he, RE::BGSAttackData *attackdata)
+	{
+		auto he_me = PA(me->GetPosition() - he->GetPosition());
+		auto head = PA(he->GetHeading(false) * 180.0f / PI);
+		if (attackdata)
+			head = head.add(attackdata->data.attackAngle);
+		auto angle = he_me.sub(head).to_normangle();
+		return angle;
+	}
+
 	void queueMessageBox(RE::BSFixedString a_message);
 
 	void playSound(RE::Actor* a, RE::BGSSoundDescriptorForm* a_descriptor, float a_volumeOverride = 1);
@@ -40,6 +67,78 @@ namespace Utils
 	void SetRotationMatrix(RE::NiMatrix3 &a_matrix, float sacb, float cacb, float sb);
 
 	void slowTime(float a_duration, float a_percentage);
+
+	RE::BGSAttackData *get_attackData(RE::Actor *a)
+	{
+		if (!a->GetActorRuntimeData().currentProcess || !a->GetActorRuntimeData().currentProcess->high)
+			return nullptr;
+		return a->GetActorRuntimeData().currentProcess->high->attackData.get();
+	}
+
+	struct PolarAngle
+	{
+		float alpha;
+		operator float() const { return alpha; }
+		PolarAngle(float x = 0.0f) : alpha(x)
+		{
+			while (alpha > 360.0f)
+				alpha -= 360.0f;
+			while (alpha < 0.0f)
+				alpha += 360.0f;
+		}
+		PolarAngle(const RE::NiPoint3 &p)
+		{
+			const float y = p.y;
+			if (y == 0.0)
+			{
+				if (p.x <= 0.0)
+					alpha = PI * 1.5f;
+				else
+					alpha = PI * 0.5f;
+			}
+			else
+			{
+				alpha = atanf(p.x / y);
+				if (y < 0.0)
+					alpha += PI;
+			}
+			alpha = alpha * 180.0f / PI;
+		}
+		PolarAngle add(const PolarAngle &r) const
+		{
+			float ans = alpha + r.alpha;
+			if (ans >= 360.0f)
+				return {ans - 360.0f};
+			else
+				return {ans};
+		}
+		PolarAngle sub(const PolarAngle &r) const
+		{
+			return this->add({360.0f - r.alpha});
+		}
+		float to_normangle() const
+		{
+			if (alpha > 180.0f)
+				return alpha - 360.0f;
+			else
+				return alpha;
+		}
+		float to_normangle_abs() const
+		{
+			return abs(to_normangle());
+		}
+		static bool ordered(PolarAngle alpha, PolarAngle beta, PolarAngle gamma)
+		{
+			gamma = gamma.sub(alpha);
+			beta = beta.sub(alpha);
+			return gamma >= beta;
+		}
+		static float dist(float r, PolarAngle alpha)
+		{
+			auto ans = r * (alpha) / 180.0f * PI;
+			return ans;
+		}
+	};
 
 	namespace Actor
 	{
@@ -156,3 +255,4 @@ constexpr uint32_t operator"" _h(const char* str, size_t size) noexcept
 {
 	return hash(str, size);
 }
+
