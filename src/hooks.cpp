@@ -251,22 +251,22 @@ namespace hooks
 	
 
 
-	inline void offset_NPC_rotation(RE::Actor* a_actor, float& a_angle) 
-	{
-		if (a_actor->IsPlayerRef()) {
-			return;
-		}
-		float angleDelta = Utils::math::NormalRelativeAngle(a_angle - a_actor->data.angle.z);
-	
-		/* Dodge commitment */
-		if (settings::bDodgeAI_Enable && dodge::GetSingleton()->get_is_dodging(a_actor)) {  
-			angleDelta = 0;
-		}
-		a_angle = a_actor->data.angle.z + angleDelta;
-	}
+	//inline void offset_NPC_rotation(RE::Actor* a_actor, float& a_angle) 
+	//{
+	//	if (a_actor->IsPlayerRef()) {
+	//		return;
+	//	}
+	//	float angleDelta = Utils::math::NormalRelativeAngle(a_angle - a_actor->data.angle.z);
+	//
+	//	/* Dodge commitment */
+	//	if (settings::bDodgeAI_Enable && dodge::GetSingleton()->get_is_dodging(a_actor)) {  
+	//		angleDelta = 0;
+	//	}
+	//	a_angle = a_actor->data.angle.z + angleDelta;
+	//}
 
 	
-	void on_set_rotation::Actor_SetRotationX(RE::Actor* a_this, float a_angle)
+	/*void on_set_rotation::Actor_SetRotationX(RE::Actor* a_this, float a_angle)
 	{
 		offset_NPC_rotation(a_this, a_angle);
 		_Actor_SetRotationX(a_this, a_angle);
@@ -276,6 +276,6 @@ namespace hooks
 	{
 		offset_NPC_rotation(a_this, a_angle);
 		_Actor_SetRotationZ(a_this, a_angle);
-	}
+	}*/
 
 };
