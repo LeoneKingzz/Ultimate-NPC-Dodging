@@ -1,25 +1,7 @@
 #include "settings.h"
-// #define SETTINGFILE_PATH "Data\\SKSE\\Plugins\\UltimateNPCDodging.ini"
 
-// #define FETCH(setting) load(setting, #setting)
 void settings::read(const wchar_t* a_path)
 {
-	// DtryUtils::settingsLoader reader(SETTINGFILE_PATH);
-	// reader.setActiveSection("General");
-	
-	// reader.FETCH(biFrames_enable);
-	// reader.FETCH(bHasSilentRollperk_enable);
-	// reader.FETCH(bStaminaCost_enable);
-	// reader.FETCH(bTacticalDodgeAI_enable);
-	// reader.FETCH(bZUPA_mod_Check);
-	// reader.FETCH(bUAPNG_mod_Check);
-
-	// reader.FETCH(fSideStep_staminacost);
-	// reader.FETCH(fDodgeRoll_staminacost);
-	// reader.FETCH(iDodgeRoll_ActorScaled_Chance);
-
-	// reader.log();
-
 	CSimpleIniA ini;
 	ini.SetUnicode();
 	ini.LoadFile(a_path);

@@ -1,4 +1,4 @@
-#include "dodge.h"
+#include "settings.h"
 
 //#define PI 3.1415926535f
 using writeLock = std::unique_lock<std::shared_mutex>;
@@ -181,7 +181,7 @@ PRECISION_API::PreHitCallbackReturn dodge::DodgeCallback_PreHit(const PRECISION_
 
 	// if (a_precisionHitData.attacker->AsActorState()->GetAttackState() == RE::ATTACK_STATE_ENUM::kBash && is_powerattacking(a_precisionHitData.attacker) && !a_precisionHitData.attacker->AsActorState()->IsSprinting()) {
 	// 	RE::BGSAttackData* attackdata = Utils::get_attackData(a_precisionHitData.attacker);
-	// 	auto angle = get_angle_he_me(actor, a_precisionHitData.attacker, attackdata);
+	// 	auto angle = Utils::get_angle_he_me(actor, a_precisionHitData.attacker, attackdata);
 
 	// 	float attackAngle = attackdata ? attackdata->data.strikeAngle : 35.0f;
 
@@ -193,7 +193,7 @@ PRECISION_API::PreHitCallbackReturn dodge::DodgeCallback_PreHit(const PRECISION_
 	// }
 
 	// RE::BGSAttackData* attackdata = Utils::get_attackData(a_precisionHitData.attacker);
-	// auto angle = get_angle_he_me(actor, a_precisionHitData.attacker, attackdata);
+	// auto angle = Utils::get_angle_he_me(actor, a_precisionHitData.attacker, attackdata);
 
 	// float attackAngle = attackdata ? attackdata->data.strikeAngle : 35.0f;
 
@@ -657,7 +657,7 @@ void dodge::react_to_melee(RE::Actor* a_attacker, float attack_range)
 			// auto r2 = get_dist2(refr, a_attacker);
 
 			RE::BGSAttackData* attackdata = Utils::get_attackData(a_attacker);
-			auto angle = get_angle_he_me(refr, a_attacker, attackdata);
+			auto angle = Utils::get_angle_he_me(refr, a_attacker, attackdata);
 
 			float attackAngle = attackdata ? attackdata->data.strikeAngle : 35.0f;
 
@@ -718,7 +718,7 @@ void dodge::react_to_melee_power(RE::Actor* a_attacker, float attack_range)
 			// auto r2 = get_dist2(refr, a_attacker);
 
 			RE::BGSAttackData* attackdata = Utils::get_attackData(a_attacker);
-			auto angle = get_angle_he_me(refr, a_attacker, attackdata);
+			auto angle = Utils::get_angle_he_me(refr, a_attacker, attackdata);
 
 			float attackAngle = attackdata ? attackdata->data.strikeAngle : 35.0f;
 
@@ -778,7 +778,7 @@ void dodge::react_to_melee_normal(RE::Actor* a_attacker, float attack_range)
 			// auto r2 = get_dist2(refr, a_attacker);
 
 			RE::BGSAttackData* attackdata = Utils::get_attackData(a_attacker);
-			auto angle = get_angle_he_me(refr, a_attacker, attackdata);
+			auto angle = Utils::get_angle_he_me(refr, a_attacker, attackdata);
 
 			float attackAngle = attackdata ? attackdata->data.strikeAngle : 35.0f;
 
@@ -838,7 +838,7 @@ void dodge::react_to_bash(RE::Actor* a_attacker, float attack_range)
 			// auto r2 = get_dist2(refr, a_attacker);
 
 			RE::BGSAttackData* attackdata = Utils::get_attackData(a_attacker);
-			auto angle = get_angle_he_me(refr, a_attacker, attackdata);
+			auto angle = Utils::get_angle_he_me(refr, a_attacker, attackdata);
 
 			float attackAngle = attackdata ? attackdata->data.strikeAngle : 35.0f;
 
@@ -895,7 +895,7 @@ void dodge::react_to_bash_sprint(RE::Actor* a_attacker, float attack_range)
 			// auto r2 = get_dist2(refr, a_attacker);
 
 			RE::BGSAttackData* attackdata = Utils::get_attackData(a_attacker);
-			auto angle = get_angle_he_me(refr, a_attacker, attackdata);
+			auto angle = Utils::get_angle_he_me(refr, a_attacker, attackdata);
 
 			float attackAngle = attackdata ? attackdata->data.strikeAngle : 35.0f;
 
@@ -956,7 +956,7 @@ void dodge::react_to_ranged(RE::Actor* a_attacker, float attack_range)
 			// auto r2 = get_dist2(refr, a_attacker);
 
 			RE::BGSAttackData* attackdata = Utils::get_attackData(a_attacker);
-			auto angle = get_angle_he_me(refr, a_attacker, attackdata);
+			auto angle = Utils::get_angle_he_me(refr, a_attacker, attackdata);
 
 			float attackAngle = attackdata ? attackdata->data.strikeAngle : 7.0f;
 
@@ -1061,7 +1061,7 @@ void dodge::react_to_shouts_spells(RE::Actor* a_attacker, float attack_range)
 			// auto r2 = get_dist2(refr, a_attacker);
 
 			RE::BGSAttackData* attackdata = Utils::get_attackData(a_attacker);
-			auto angle = get_angle_he_me(refr, a_attacker, attackdata);
+			auto angle = Utils::get_angle_he_me(refr, a_attacker, attackdata);
 
 			float attackAngle = attackdata ? attackdata->data.strikeAngle : 35.0f;
 
@@ -1121,7 +1121,7 @@ void dodge::react_to_shouts_spells_fast(RE::Actor* a_attacker, float attack_rang
 			// auto r2 = get_dist2(refr, a_attacker);
 
 			RE::BGSAttackData* attackdata = Utils::get_attackData(a_attacker);
-			auto angle = get_angle_he_me(refr, a_attacker, attackdata);
+			auto angle = Utils::get_angle_he_me(refr, a_attacker, attackdata);
 
 			float attackAngle = attackdata ? attackdata->data.strikeAngle : 35.0f;
 
@@ -1673,7 +1673,7 @@ void dmco_dodge(RE::Actor* a_actor, dodge_direction a_direction, const char* a_e
 	}
 	task->AddTask([a_actor, a_direction, a_event]() {
 		a_actor->SetGraphVariableInt(GVI_dodge_dir, a_direction);
-		interruptattack(a_actor);
+		Utils::interruptattack(a_actor);
 		a_actor->NotifyAnimationGraph(a_event);
 	});
 }
@@ -1868,7 +1868,7 @@ RE::NiPoint3 dodge::get_dodge_vector(dodge_direction a_direction)
 // 		auto r2 = get_dist2(me, he);
 
 // 		RE::BGSAttackData* attackdata = Utils::get_attackData(he);
-// 		auto angle = get_angle_he_me(me, he, attackdata);
+// 		auto angle = Utils::get_angle_he_me(me, he, attackdata);
 
 // 		float attackAngle = attackdata ? attackdata->data.strikeAngle : 50.0f;
 

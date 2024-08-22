@@ -46,15 +46,6 @@ namespace Utils
 		me->NotifyAnimationGraph("recoilStop");
 	}
 
-	float get_angle_he_me(RE::Actor *me, RE::Actor *he, RE::BGSAttackData *attackdata)
-	{
-		auto he_me = PA(me->GetPosition() - he->GetPosition());
-		auto head = PA(he->GetHeading(false) * 180.0f / PI);
-		if (attackdata)
-			head = head.add(attackdata->data.attackAngle);
-		auto angle = he_me.sub(head).to_normangle();
-		return angle;
-	}
 
 	void queueMessageBox(RE::BSFixedString a_message);
 
@@ -140,6 +131,16 @@ namespace Utils
 		}
 	};
 
+	float get_angle_he_me(RE::Actor *me, RE::Actor *he, RE::BGSAttackData *attackdata)
+	{
+		auto he_me = PolarAngle(me->GetPosition() - he->GetPosition());
+		auto head = PolarAngle(he->GetHeading(false) * 180.0f / PI);
+		if (attackdata)
+			head = head.add(attackdata->data.attackAngle);
+		auto angle = he_me.sub(head).to_normangle();
+		return angle;
+	}
+
 	namespace Actor
 	{
 		RE::TESObjectWEAP* getWieldingWeapon(RE::Actor* a_actor);
@@ -174,52 +175,6 @@ namespace ValhallaUtils
 /*Some of my own convenience stuff*/
 namespace DtryUtils
 {
-	/*Helper class to batch load forms from plugin records.*/
-	class formLoader
-	{
-	private:
-		RE::BSFixedString _pluginName;
-		RE::TESDataHandler* _dataHandler;
-		int _loadedForms;
-
-	public:
-		formLoader(RE::BSFixedString pluginName);
-
-		void log();
-
-
-		template <class formType>
-		void load(formType*& formRet, RE::FormID formID)
-		{
-			formRet = _dataHandler->LookupForm<formType>(formID, _pluginName);
-			if (!formRet) {
-				logger::critical("Error: null formID or wrong form type when loading {} from {}", formID, _pluginName);
-			}
-			_loadedForms++;
-		}
-	};
-
-	/*Helper class to load from a simple ini file.*/
-	class settingsLoader
-	{
-	private:
-		std::shared_ptr<CSimpleIniA> _ini;
-		const char* _section;
-		int _loadedSettings;
-		const char* _settingsFile;
-	public:
-		settingsLoader(const char* settingsFile);
-		/*Set the active section. Load() will load keys from this section.*/
-		void setActiveSection(const char* section);
-		
-		void load(bool& settingRef, const char* key);
-		void load(float& settingRef, const char* key);
-		void load(uint32_t& settingRef, const char* key);
-		void load(int& settingRef, const char* key);
-		
-		void log();
-	};
-
 	class rayCast
 	{
 

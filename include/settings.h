@@ -3,6 +3,7 @@
 #include <SimpleIni.h>
 #include "Utils.h"
 #include "dodge.h"
+
 using EventResult = RE::BSEventNotifyControl;
 
 class settings

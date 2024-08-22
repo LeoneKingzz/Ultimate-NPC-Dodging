@@ -1,4 +1,3 @@
-#include "Utils.h"
 #include "settings.h"
 using writeLock = std::unique_lock<std::shared_mutex>;
 using readLock = std::shared_lock<std::shared_mutex>;
@@ -96,92 +95,6 @@ void Utils::slowTime(float a_duration, float a_percentage)
 	std::jthread resetThread(resetSlowTime, duration_milisec);
 	resetThread.detach();
 }
-
-DtryUtils::settingsLoader::settingsLoader(const char* settingsFile)
-{
-	_ini = std::make_shared<CSimpleIniA>();
-	_ini->LoadFile(settingsFile);
-	if (_ini->IsEmpty()) {
-		logger::info("Warning: {} is empty.", settingsFile);
-	}
-	_settingsFile = settingsFile;
-}
-
-/*Set the active section. Load() will load keys from this section.*/
-
-void DtryUtils::settingsLoader::setActiveSection(const char* section)
-{
-	_section = section;
-}
-
-/*Load a boolean value if present.*/
-
-void DtryUtils::settingsLoader::load(bool& settingRef, const char* key)
-{
-	if (_ini->GetValue(_section, key)) {
-		bool val = _ini->GetBoolValue(_section, key);
-		settingRef = val;
-		_loadedSettings++;
-	}
-}
-
-/*Load a float value if present.*/
-
-void DtryUtils::settingsLoader::load(float& settingRef, const char* key)
-{
-	if (_ini->GetValue(_section, key)) {
-		float val = static_cast<float>(_ini->GetDoubleValue(_section, key));
-		settingRef = val;
-		_loadedSettings++;
-	}
-}
-
-/*Load an unsigned int value if present.*/
-
-void DtryUtils::settingsLoader::load(uint32_t& settingRef, const char* key)
-{
-	if (_ini->GetValue(_section, key)) {
-		uint32_t val = static_cast<uint32_t>(_ini->GetDoubleValue(_section, key));
-		settingRef = val;
-		_loadedSettings++;
-	}
-}
-
-/*Load an integer value if present.*/
-
-void DtryUtils::settingsLoader::load(int& settingRef, const char* key)
-{
-	if (_ini->GetValue(_section, key)) {
-		int val = static_cast<int>(_ini->GetDoubleValue(_section, key));
-		settingRef = val;
-		_loadedSettings++;
-	}
-}
-
-void DtryUtils::settingsLoader::log()
-{
-	logger::info("Loaded {} settings from {}", _loadedSettings, _settingsFile);
-}
-
-DtryUtils::formLoader::formLoader(RE::BSFixedString pluginName)
-{
-	_pluginName = pluginName;
-	_dataHandler = RE::TESDataHandler::GetSingleton();
-	if (!_dataHandler) {
-		logger::critical("Error: TESDataHandler not found.");
-	}
-	if (!_dataHandler->LookupModByName(pluginName)) {
-		logger::critical("Error: {} not found.", pluginName);
-	}
-	logger::info("Loading from plugin {}...", pluginName);
-}
-
-void DtryUtils::formLoader::log()
-{
-	logger::info("Loaded {} forms from {}", _loadedForms, _pluginName);
-}
-
-
 
 RE::TESObjectWEAP* Utils::Actor::getWieldingWeapon(RE::Actor* a_actor)
 {

@@ -1,7 +1,5 @@
 #include "log.h"
-#include "dodge.h"
 #include "hooks.h"
-#include "Utils.h"
 #include "settings.h"
 
 void OnDataLoaded()

@@ -1,11 +1,5 @@
 #pragma once
-#include "PCH.h"
-#include "CombatBehaviorConditions.h"
 #include <unordered_set>
-#include <shared_mutex>
-#include "UselessFenixUtils.h"
-#include "settings.h"
-#include "Utils.h"
 #include <algorithm>
 #include "RE/M/Misc.h"
 #include "lib/PrecisionAPI.h"
