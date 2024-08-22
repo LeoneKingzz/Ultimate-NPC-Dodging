@@ -37,16 +37,6 @@ namespace Utils
 		return func(std::forward<Args>(args)...);
 	}
 
-	void interruptattack(RE::Actor *me)
-	{
-		me->NotifyAnimationGraph("attackStop");
-		me->NotifyAnimationGraph("bashStop");
-		me->NotifyAnimationGraph("blockStop");
-		me->NotifyAnimationGraph("staggerStop");
-		me->NotifyAnimationGraph("recoilStop");
-	}
-
-
 	void queueMessageBox(RE::BSFixedString a_message);
 
 	void playSound(RE::Actor* a, RE::BGSSoundDescriptorForm* a_descriptor, float a_volumeOverride = 1);

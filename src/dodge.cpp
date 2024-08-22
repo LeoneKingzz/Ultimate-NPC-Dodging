@@ -13,6 +13,14 @@ void dodge::init() {
 	}
 }
 
+void interruptattack(RE::Actor *me)
+{
+	me->NotifyAnimationGraph("attackStop");
+	me->NotifyAnimationGraph("bashStop");
+	me->NotifyAnimationGraph("blockStop");
+	me->NotifyAnimationGraph("staggerStop");
+	me->NotifyAnimationGraph("recoilStop");
+}
 
 //Native Functions for Papyrus
 float dodge::GetProtaganist_ReflexScore(RE::Actor* a_actor){
@@ -1271,7 +1279,7 @@ void dmco_dodge(RE::Actor* a_actor, dodge_direction a_direction, const char* a_e
 	}
 	task->AddTask([a_actor, a_direction, a_event]() {
 		a_actor->SetGraphVariableInt(GVI_dodge_dir, a_direction);
-		Utils::interruptattack(a_actor);
+		interruptattack(a_actor);
 		a_actor->NotifyAnimationGraph(a_event);
 	});
 }
