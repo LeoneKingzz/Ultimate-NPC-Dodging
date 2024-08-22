@@ -32,6 +32,16 @@ void Utils::playSound(RE::Actor* a, RE::BGSSoundDescriptorForm* a_descriptor, fl
 	}
 }
 
+float Utils::get_angle_he_me(RE::Actor *me, RE::Actor *he, RE::BGSAttackData *attackdata)
+{
+	auto he_me = PolarAngle(me->GetPosition() - he->GetPosition());
+	auto head = PolarAngle(he->GetHeading(false) * 180.0f / PI);
+	if (attackdata)
+		head = head.add(attackdata->data.attackAngle);
+	auto angle = he_me.sub(head).to_normangle();
+	return angle;
+}
+
 /*Get the absolute position of a point in world, given a relative position to an actor.*/
 RE::NiPoint3 Utils::get_abs_pos(RE::Actor* a_actor, RE::NiPoint3 a_relative_pos)  // Hacked this together in a very short time; there might be better solutions.
 {
