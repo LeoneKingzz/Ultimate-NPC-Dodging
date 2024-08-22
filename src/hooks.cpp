@@ -5,30 +5,6 @@
 namespace hooks
 {
 
-	static inline RE::BSFixedString cPtr_bashPowerStart = "bashPowerStart";
-	/// <summary>
-	/// Handle perilous attacking.
-	/// </summary>
-	/// <param name="a_actionData"></param>
-	/// <returns>Whether the attack action is performed.</returns>
-	// "TKDodgeStop"_h:
-	// "MCO_DodgeInitiate"_h:
-	// case "MCO_Recovery"_h:
-	// 	bool bIsDodging = false;
-	// 	if (Utils::Actor::isHumanoid(actor) && actor->GetGraphVariableBool("bIsDodging", bIsDodging) && !bIsDodging) {
-	// 		if (actor->AsActorState()->actorState2.wantBlocking) {
-	// 			actor->NotifyAnimationGraph("MCO_EndAnimation");
-	// 			actor->NotifyAnimationGraph("MCO_AnimStop");
-	// 			actor->NotifyAnimationGraph("attackStop");
-	// 			actor->NotifyAnimationGraph("blockStart");
-	// 		}
-	// 	}
-	// 	break;
-	// if (!actor->IsPlayerRef()) {
-	// 	actor->NotifyAnimationGraph("recoilStop");
-	// }
-	// break;
-
 	void on_animation_event::ProcessEvent(RE::BSTEventSink<RE::BSAnimationGraphEvent>* a_sink, RE::BSAnimationGraphEvent* a_event, RE::BSTEventSource<RE::BSAnimationGraphEvent>* a_eventSource)
 	{
 		if (!a_event->holder) {
