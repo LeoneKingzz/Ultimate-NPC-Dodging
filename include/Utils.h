@@ -49,12 +49,7 @@ namespace Utils
 
 	void slowTime(float a_duration, float a_percentage);
 
-	RE::BGSAttackData *get_attackData(RE::Actor *a)
-	{
-		if (!a->GetActorRuntimeData().currentProcess || !a->GetActorRuntimeData().currentProcess->high)
-			return nullptr;
-		return a->GetActorRuntimeData().currentProcess->high->attackData.get();
-	}
+	RE::BGSAttackData *get_attackData(RE::Actor *a);
 
 	struct PolarAngle
 	{

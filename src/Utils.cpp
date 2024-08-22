@@ -42,6 +42,13 @@ float Utils::get_angle_he_me(RE::Actor *me, RE::Actor *he, RE::BGSAttackData *at
 	return angle;
 }
 
+RE::BGSAttackData *Utils::get_attackData(RE::Actor *a)
+{
+	if (!a->GetActorRuntimeData().currentProcess || !a->GetActorRuntimeData().currentProcess->high)
+		return nullptr;
+	return a->GetActorRuntimeData().currentProcess->high->attackData.get();
+}
+
 /*Get the absolute position of a point in world, given a relative position to an actor.*/
 RE::NiPoint3 Utils::get_abs_pos(RE::Actor* a_actor, RE::NiPoint3 a_relative_pos)  // Hacked this together in a very short time; there might be better solutions.
 {
