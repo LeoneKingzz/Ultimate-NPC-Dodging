@@ -97,7 +97,6 @@ public:
 
 	struct Stamina_factors
 	{
-		// float Skirmish_AvoidThreat_Weighting = 0.25f;
 		float Stamina_HeavyArmour_mult = 0.15f;
 		float Stamina_LightArmour_mult = 0.7f;
 		float Stamina_Clothing_mult = 1.0f;
@@ -161,8 +160,6 @@ private:
 	bool able_dodge(RE::Actor* a_actor);
 
 	bool can_goto(RE::Actor* a_actor, RE::NiPoint3 a_dest);
-	
-	/*dodge_direction get_dodge_direction(RE::Actor* a_actor, RE::Actor* a_attacker);*/
 
 	void do_dodge(RE::Actor* a_actor, dodge_direction a_direction);
 	void TRKE_dodge(RE::Actor* actor, const char* a_event, bool backingoff = false);
@@ -173,35 +170,3 @@ private:
 	mutable std::shared_mutex dodging_actors_lock;
 	
 };
-
-// namespace Movement
-// {
-// 	using PA = Utils::PolarAngle;
-// 	struct AttackInfo
-// 	{
-// 		float R;
-// 		float attackAngle;
-// 		float r;
-// 		PA me;
-// 		bool reflected;
-// 	};
-// 	const float default_angle = 50.0f;
-
-// 	float get_FallbackDistance(RE::Character* me);
-// 	// bool isInDanger(RE::Actor* me, AttackInfo* info = nullptr);
-
-// 	enum class CircleDirestions
-// 	{
-// 		None,
-// 		Left,
-// 		Right,
-// 		Back
-// 	};
-
-// 	namespace Dodging
-// 	{
-// 		uint32_t should(RE::Character*);
-// 		uint32_t should_danger(RE::Character*);
-// 	}
-
-// }

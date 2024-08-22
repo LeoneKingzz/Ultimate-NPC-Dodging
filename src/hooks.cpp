@@ -34,9 +34,9 @@ namespace hooks
 		if (!a_event->holder) {
 			return;
 		}
-		std::string_view eventTag = a_event->tag.data();
+		//std::string eventTag = a_event->tag.c_str();
 		RE::Actor* actor = const_cast<RE::TESObjectREFR*>(a_event->holder)->As<RE::Actor>();
-		switch (hash(eventTag.data(), eventTag.size())) {
+		switch (hash(a_event->tag.c_str(), a_event->tag.size())) {
 		case "TKDR_DodgeStart"_h:
 		    if (!actor->IsPlayerRef()) {
 				const auto StaminaCost = RE::TESForm::LookupByEditorID<RE::MagicItem>("StaminaCostSpell_UND");
@@ -103,74 +103,27 @@ namespace hooks
 			break;
 
 		case "Voice_SpellFire_Event"_h:
-			// if (dodge::GetSingleton()->GetEquippedShout(actor)) {
-			// 	dodge::GetSingleton()->react_to_shouts_spells(actor, 3000.0f);
-			// }
 			if (GetEquippedShouts(actor)){
 				dodge::GetSingleton()->react_to_shouts_spells(actor, 3000.0f);
 			}
 			break;
 
-		// case "BeginCastVoice"_h:
-		// 	if (actor->GetCurrentShout()->variations->spell->As<RE::MagicItem>()->IsHostile()) {
-				
-		// 		dodge::GetSingleton()->react_to_shouts_spells(actor, 3000.0f);
-		// 	}
-		// 	break;
-
 		case "MLh_SpellFire_Event"_h:
-			// if (actor->GetEquippedObject(true)->As<RE::MagicItem>()->IsHostile()) {
-			// 	dodge::GetSingleton()->react_to_shouts_spells_fast(actor, 3000.0f);
-			// }
 			if (dodge::GetSingleton()->GetAttackSpell(actor, true)) {
 				dodge::GetSingleton()->react_to_shouts_spells_fast(actor, 3000.0f);
 			}
-			// dodge::GetSingleton()->react_to_shouts_spells_fast(actor, 3000.0f);
 			break;
 
-		// case "BeginCastLeft"_h:
-		// 	if (actor->GetEquippedObject(true)->As<RE::MagicItem>()->IsHostile()) {
-				
-		// 		dodge::GetSingleton()->react_to_shouts_spells(actor, 2000.0f);
-		// 	}
-		// 	break;
-
 		case "MRh_SpellFire_Event"_h:
-			// if (actor->GetEquippedObject(false)->As<RE::MagicItem>()->IsHostile()) {
-			// 	dodge::GetSingleton()->react_to_shouts_spells_fast(actor, 3000.0f);
-			// }
-			// break;
 			if (dodge::GetSingleton()->GetAttackSpell(actor)) {
 				dodge::GetSingleton()->react_to_shouts_spells_fast(actor, 3000.0f);
 			}
-			// dodge::GetSingleton()->react_to_shouts_spells_fast(actor, 3000.0f);
 			break;
-
-			// case "BeginCastRight"_h:
-			// 	if (actor->GetEquippedObject(false)->As<RE::MagicItem>()->IsHostile()) {
-
-			// 		dodge::GetSingleton()->react_to_shouts_spells(actor, 2000.0f);
-			// 	}
-			// 	break;
 
 		case "PowerAttack_Start_end"_h:
 		case "NextAttackInitiate"_h:
 			dodge::GetSingleton()->react_to_melee_normal(actor, dodge::GetSingleton()->Get_ReactiveDodge_Distance(actor));
 			break;
-
-		// case "NextPowerAttackInitiate"_h:
-
-		// 	dodge::GetSingleton()->react_to_melee_power(actor, dodge::GetSingleton()->Get_ReactiveDodge_Distance(actor));
-		// 	break;
-
-		// case "bashPowerStart"_h:
-		// 	dodge::GetSingleton()->react_to_bash(actor, 250.0f);
-		// 	break;
-
-		// case "BlockBashSprint"_h:
-			
-		// 	dodge::GetSingleton()->react_to_bash_sprint(actor, 400.0f); 
-		// 	break;
 
 		case "BowFullDrawn"_h:
 			
@@ -184,8 +137,8 @@ namespace hooks
 		auto limboshout = actor->GetActorRuntimeData().selectedPower;
 
 		if (limboshout && limboshout->Is(RE::FormType::Shout)) {
-			std::string_view Lsht = (clib_util::editorID::get_editorID(limboshout)).data();
-			switch (hash(Lsht.data(), Lsht.size())) {
+			std::string Lsht = (clib_util::editorID::get_editorID(limboshout));
+			switch (hash(Lsht.c_str(), Lsht.size())) {
 			case "HoY_PullofNirnShout_Miraak"_h:
 			case "SlowTimeShout"_h:
 			case "Serio_EDR_GravityBlastShoutPAAR"_h:
@@ -262,7 +215,6 @@ namespace hooks
 
 	ptr_CombatPath on_combatBehavior_backoff_createPath::create_path(RE::Actor* a_actor, RE::NiPoint3* a_newPos, float a3, int speed_ind)
 	{
-		// RE::Character* actor = a_actor->As<RE::Character>();
 	
 		switch (settings::iDodgeAI_Framework) {
 		case 0:
@@ -278,7 +230,6 @@ namespace hooks
 
 	ptr_CombatPath on_combatBehavior_circle_createPath::create_path(RE::Actor* a_actor, RE::NiPoint3* a_newPos, float a3, int speed_ind)
 	{
-		// RE::Character* actor = a_actor->As<RE::Character>();
 
 		switch (settings::iDodgeAI_Framework) {
 		case 0:
@@ -294,7 +245,6 @@ namespace hooks
 
 	ptr_CombatPath on_combatBehavior_fallback_createPath::create_path(RE::Actor* a_actor, RE::NiPoint3* a_newPos, float a3, int speed_ind)
 	{
-		// RE::Character* actor = a_actor->As<RE::Character>();
 
 		switch (settings::iDodgeAI_Framework) {
 		case 0:
@@ -310,7 +260,6 @@ namespace hooks
 
 	ptr_CombatPath on_combatBehavior_dodgethreat_createPath::create_path(RE::Actor* a_actor, RE::NiPoint3* a_newPos, float a3, int speed_ind)
 	{
-		// RE::Character* actor = a_actor->As<RE::Character>();
 
 		switch (settings::iDodgeAI_Framework) {
 		case 0:
