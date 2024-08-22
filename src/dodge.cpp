@@ -920,31 +920,31 @@ void dodge::react_to_shouts_spells_fast(RE::Actor* a_attacker, float attack_rang
 	});
 }
 
-void dodge::set_dodge_phase(RE::Actor* a_dodger, bool a_isDodging)
-{
-	auto handle = a_dodger->GetHandle();
-	if (handle) {
-		writeLock l (dodging_actors_lock);
-		if (a_isDodging) {
-			if (!dodging_actors.contains(handle)) {
-				dodging_actors.insert(handle);
-			}
-		} else {
-			dodging_actors.erase(handle);
-		}
-	}
-}
-
-bool dodge::get_is_dodging(RE::Actor* a_actor)
-{
-	auto handle = a_actor->GetHandle();
-	if (handle) {
-		readLock l(dodging_actors_lock);
-		return dodging_actors.contains(handle);
-	}
-	return false;
-	
-}
+//void dodge::set_dodge_phase(RE::Actor* a_dodger, bool a_isDodging)
+//{
+//	auto handle = a_dodger->GetHandle();
+//	if (handle) {
+//		writeLock l (dodging_actors_lock);
+//		if (a_isDodging) {
+//			if (!dodging_actors.contains(handle)) {
+//				dodging_actors.insert(handle);
+//			}
+//		} else {
+//			dodging_actors.erase(handle);
+//		}
+//	}
+//}
+//
+//bool dodge::get_is_dodging(RE::Actor* a_actor)
+//{
+//	auto handle = a_actor->GetHandle();
+//	if (handle) {
+//		readLock l(dodging_actors_lock);
+//		return dodging_actors.contains(handle);
+//	}
+//	return false;
+//	
+//}
 
 
 /*Check if the actor is able to dodge.*/

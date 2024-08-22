@@ -1,5 +1,5 @@
 #pragma once
-#include <unordered_set>
+//#include <unordered_set>
 #include <algorithm>
 #include "RE/M/Misc.h"
 #include "lib/PrecisionAPI.h"
@@ -143,8 +143,8 @@ public:
 	static void Set_iFrames(RE::Actor* actor);
 	static void Reset_iFrames(RE::Actor* actor);
 
-	void set_dodge_phase(RE::Actor* a_dodger, bool a_isDodging);
-	bool get_is_dodging(RE::Actor* a_actor);
+	//void set_dodge_phase(RE::Actor* a_dodger, bool a_isDodging);
+	//bool get_is_dodging(RE::Actor* a_actor);
 
 	float Get_ReactiveDodge_Distance(RE::Actor *actor);
 	bool GetAttackSpell(RE::Actor* actor, bool lefthand = false);
@@ -166,7 +166,7 @@ private:
 
 	RE::NiPoint3 get_dodge_vector(dodge_direction a_direction);
 
-	std::unordered_set<RE::ActorHandle> dodging_actors;
-	mutable std::shared_mutex dodging_actors_lock;
+	//std::unordered_set<RE::ActorHandle> dodging_actors;
+	//mutable std::shared_mutex dodging_actors_lock;
 	
 };
